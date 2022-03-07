@@ -49,14 +49,12 @@ public class ServletUsuarioController extends HttpServlet {
 		
 		
 		daoUsuarioRepository.gravarUsuario(modelLogin);
-		
 		request.setAttribute("msg", "Operação realizada com sucesso!");
-		
-		RequestDispatcher redireciona = request.getRequestDispatcher("principal/usuario.jsp"); /*redireciona para a mesma tela dpois de atualizar*/
-		
 		request.setAttribute("modelLogin", modelLogin);   /* mantem os dados na tela - edição de conteudo também */
-		/* na pagina usuario.jsp utilizar ${modelLogin.nome} para recuperar o nome que estava na tela */
-		redireciona.forward(request, response);
+		/* na pagina usuario.jsp utilizar ${modolLogin.nome} para recuperar o nome que estava na tela */
+		request.getRequestDispatcher("principal/usuario.jsp").forward(request, response); /*redireciona para a mesma tela dpois de atualizar*/
+		
+	
 		}catch(Exception e) {
 			e.printStackTrace();
 			RequestDispatcher redirecionar = request.getRequestDispatcher("erro.jsp");
