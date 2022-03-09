@@ -38,19 +38,38 @@ public class DAOUsuarioRepository {
 	
 	}
 	
-	public ModelLogin consultaUsuario(String login) throws Exception {
+	public ModelLogin consultaUsuario(String login) throws Exception  {
+		
 		ModelLogin modelLogin = new ModelLogin();
-		String sql = "select * from model_login where login = ' "+login+"';";
-				PreparedStatement statement = connection.prepareStatement(sql);
-				ResultSet resultado = statement.executeQuery();
-				while(resultado.next()) { /* se tem resultado*/
-					modelLogin.setId(resultado.getLong("id"));
-					modelLogin.setEmail(resultado.getString("email"));
-					modelLogin.setLogin(resultado.getString("login"));
-					modelLogin.setSenha(resultado.getString("senha"));
-					modelLogin.setNome(resultado.getString("nome"));
-				}
-				return modelLogin;
+		
+		String sql = "select * from model_login where login = '"+login+"' ;";
+		
+		PreparedStatement statement = connection.prepareStatement(sql);
+		
+		ResultSet resutlado =  statement.executeQuery();
+		
+		while (resutlado.next()) /*Se tem resultado*/ {
+			
+			modelLogin.setId(resutlado.getLong("id"));
+			modelLogin.setEmail(resutlado.getString("email"));
+			modelLogin.setLogin(resutlado.getString("login"));
+			modelLogin.setSenha(resutlado.getString("senha"));
+			modelLogin.setNome(resutlado.getString("nome"));
+		}
+		
+		
+		return modelLogin;
+		
 	}
 	
+	public boolean validarLogin (String login) throws Exception {
+		String sql = "select count(1) > 0 as existe from model_login where login = '"+login+"' ;";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		ResultSet resultado = statement.executeQuery();
+		
+		resultado.next(); /*para ele entrar nos resultados do sql*/
+		return resultado.getBoolean("existe");
+
+	}
+
 }
